@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController as UserController;
 
@@ -18,7 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/list-user', [UserController::class, 'showUser']);
+//Route::get('/list-user', [UserController::class, 'showUser']);
 //Slug
 // http://127.0.0.1:8000/listUser
 
@@ -30,8 +31,29 @@ Route::get('/update-user', [UserController::class, 'updateUser']);
 //Param
 //http://127.0.0.1:8000/update-user?id=1&name=hieu
 
+//lab1
 Route::get('/info', [UserController::class, 'info']);
 
 Route::get('/test', function () {
 
+});
+
+//Users group
+Route::group(['prefix' => 'users' , 'as' => 'users.'], function () {
+    Route::get('/list-user', [UserController::class, 'listUser'])->name('listUser');
+    Route::get('/add-user', [UserController::class, 'addUser'])->name('addUser');
+    Route::post('/create-user', [UserController::class, 'createUser'])->name('createUser');
+    Route::get('/edit-user/{id}', [UserController::class, 'editUser'])->name('editUser');
+    Route::post('/update-user/{id}', [UserController::class, 'updateUser'])->name('updateUser');
+    Route::get('/delete-user/{id}', [UserController::class, 'deleteUser'])->name('deleteUser');
+});
+
+Route::group(['prefix' => 'products' , 'as' => 'products.'], function () {
+    Route::get('/list-product', [ProductsController::class, 'listProduct'])->name('listProduct');
+    Route::get('/add-product', [ProductsController::class, 'addProduct'])->name('addProduct');
+    Route::post('/create-product', [ProductsController::class, 'createProduct'])->name('createProduct');
+    Route::get('/edit-product/{id}', [ProductsController::class, 'editProduct'])->name('editProduct');
+    Route::post('/update-product/{id}', [ProductsController::class, 'updateProduct'])->name('updateProduct');
+    Route::get('/delete-product/{id}', [ProductsController::class, 'deleteProduct'])->name('deleteProduct');
+    Route::get('search-product', [ProductsController::class, 'searchProduct'])->name('searchProduct');
 });
