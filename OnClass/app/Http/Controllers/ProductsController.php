@@ -15,7 +15,7 @@ class ProductsController extends Controller
             ->join('category', 'products.category_id', '=', 'category.id')
             ->orderBy('products.view', 'desc')
             ->get();
-        return view('product/list-product')->with('list', $list);
+        return view('products/list-products')->with('list', $list);
     }
 
     function addProduct()
@@ -23,7 +23,7 @@ class ProductsController extends Controller
         $category = DB::table('category')
             ->select('id', 'name')
             ->get();
-        return view('product/add-product')->with('category', $category);
+        return view('products/add-products')->with('category', $category);
     }
 
     function createProduct(Request $request)
@@ -38,7 +38,7 @@ class ProductsController extends Controller
         ];
 
         $productInsert = DB::table('products')->insert($data);
-        return redirect('products/list-product');
+        return redirect('products/list-products');
     }
 
     function editProduct($id)
@@ -50,7 +50,7 @@ class ProductsController extends Controller
             ->first();
 
         $category = DB::table('category')->select('id', 'name')->get();
-        return view('product/edit-product')->with(['product'=> $product, 'category' => $category]);
+        return view('products/edit-products')->with(['products'=> $product, 'category' => $category]);
     }
 
     function updateProduct(Request $request, $id) {
@@ -63,13 +63,13 @@ class ProductsController extends Controller
         ];
 
         $updateProduct = DB::table('products')->where('id', $id)->update($data);
-        return redirect('products/list-product');
+        return redirect('products/list-products');
     }
 
     function deleteProduct($id)
     {
         $delete = DB::table('products')->where('id', $id)->delete();
-        return redirect('products/list-product');
+        return redirect('products/list-products');
     }
 
     function searchProduct(Request $request)
@@ -81,6 +81,6 @@ class ProductsController extends Controller
             ->where('products.name', 'like', '%'.$search.'%')
             ->orderBy('products.view', 'desc')
             ->get();
-        return view('product/list-product')->with('list', $list);
+        return view('products/list-products')->with('list', $list);
     }
 }
