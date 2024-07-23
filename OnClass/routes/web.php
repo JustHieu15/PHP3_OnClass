@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProductsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController as UserController;
+use App\Http\Controllers\Admin\ProductsController as AdminProductsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,11 +50,29 @@ Route::group(['prefix' => 'users' , 'as' => 'users.'], function () {
 });
 
 Route::group(['prefix' => 'products' , 'as' => 'products.'], function () {
-    Route::get('/list-product', [ProductsController::class, 'listProduct'])->name('listProduct');
-    Route::get('/add-product', [ProductsController::class, 'addProduct'])->name('addProduct');
-    Route::post('/create-product', [ProductsController::class, 'createProduct'])->name('createProduct');
-    Route::get('/edit-product/{id}', [ProductsController::class, 'editProduct'])->name('editProduct');
-    Route::post('/update-product/{id}', [ProductsController::class, 'updateProduct'])->name('updateProduct');
-    Route::get('/delete-product/{id}', [ProductsController::class, 'deleteProduct'])->name('deleteProduct');
-    Route::get('search-product', [ProductsController::class, 'searchProduct'])->name('searchProduct');
+    Route::get('/list-products', [ProductsController::class, 'listProduct'])->name('listProduct');
+    Route::get('/add-products', [ProductsController::class, 'addProduct'])->name('addProduct');
+    Route::post('/create-products', [ProductsController::class, 'createProduct'])->name('createProduct');
+    Route::get('/edit-products/{id}', [ProductsController::class, 'editProduct'])->name('editProduct');
+    Route::post('/update-products/{id}', [ProductsController::class, 'updateProduct'])->name('updateProduct');
+    Route::get('/delete-products/{id}', [ProductsController::class, 'deleteProduct'])->name('deleteProduct');
+    Route::get('search-products', [ProductsController::class, 'searchProduct'])->name('searchProduct');
+});
+
+//Dùng cho việc học template engine (đặt ở UserController)
+Route::get('test', [UserController::class, 'test']);
+
+//CRUD using ORM (base url: http://127.0.0.1:8000/admin/products/....)
+Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::group(['prefix' => 'products', 'as' => 'products.'], function () {
+        Route::get('/', [AdminProductsController::class, 'index'])->name('index');
+
+        Route::get('/add-products', [AdminProductsController::class, 'addProduct'])->name('addProduct');
+        Route::post('/create-products', [AdminProductsController::class, 'createProduct'])->name('createProduct');
+
+        Route::get('/edit-products/{id}', [AdminProductsController::class, 'editProduct'])->name('editProduct');
+        Route::post('/update-products/{id}', [AdminProductsController::class, 'updateProduct'])->name('updateProduct');
+
+        Route::get('/delete-products/{id}', [AdminProductsController::class, 'deleteProduct'])->name('deleteProduct');
+    });
 });

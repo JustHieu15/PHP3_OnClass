@@ -201,4 +201,9 @@ class UserController extends Controller
         $delete = DB::table('users')->where('id', $id)->delete();
         return redirect()->route('users.listUser');
     }
+
+    public function test()
+    {
+        return view('admin/products/index');
+    }
 }
